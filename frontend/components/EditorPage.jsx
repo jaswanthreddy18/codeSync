@@ -27,7 +27,7 @@ const EditorPage = () => {
                 }
                 socketRef.current.emit(ACTIONS.JOIN, {
                     roomId,
-                    username: location.state?.username
+                    username: location.state?.username 
                 })
                 socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
                     if (username !== location.state?.username) {
