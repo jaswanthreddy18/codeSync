@@ -35,7 +35,7 @@ const Editor = ({ socketRef, roomId }) => {
   const [output, setOutput] = useState("");
   useEffect(() => {
     if (!socketRef.current) {
-      console.error("Socket not connected in Editor!"); 
+      console.error("Socket not connected in Editor!");
       return;
     }
 
@@ -68,9 +68,9 @@ const Editor = ({ socketRef, roomId }) => {
       python: { name: "python", version: "3.10.0" },
       cpp: { name: "cpp", version: "10.2.0" },
       java: { name: "java", version: "15.0.2" },
-      html: { name: "html", version: "" }, 
+      html: { name: "html", version: "" },
     };
-    
+
     const { name, version } = languageMap[language];
     const payload = {
       language: name,
@@ -81,8 +81,14 @@ const Editor = ({ socketRef, roomId }) => {
         },
       ],
       stdin: input,
+      "compile_timeout": 10000,
+      "run_timeout": 3000,
+      "compile_cpu_time": 10000,
+      "run_cpu_time": 3000,
+      "compile_memory_limit": -1,
+      "run_memory_limit": -1
     };
-  
+
     try {
       const res = await fetch("https://emkc.org/api/v2/piston/execute", {
         method: "POST",
@@ -91,7 +97,7 @@ const Editor = ({ socketRef, roomId }) => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       const data = await res.json();
       setOutput(data.run.output || data.stderr || "No output");
     } catch (err) {
@@ -99,7 +105,7 @@ const Editor = ({ socketRef, roomId }) => {
       setOutput("Error running code");
     }
   };
-  
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col items-start p-3">
@@ -116,7 +122,7 @@ const Editor = ({ socketRef, roomId }) => {
             ))}
           </select>
           <button onClick={runCode} className="flex items-center gap-2 px-4 py-1 bg-[#374151] rounded-[5px] shadow-md shadow-black cursor-pointer hover:bg-[#484e57]">
-          <svg xmlns="http://www.w3.org/2000/svg" height="14" width="10.5" viewBox="0 0 384 512"><path fill="#ebebeb" d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="14" width="10.5" viewBox="0 0 384 512"><path fill="#ebebeb" d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" /></svg>
             Run
           </button>
         </div>
