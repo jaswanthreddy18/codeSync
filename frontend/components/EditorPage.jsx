@@ -68,8 +68,8 @@ const EditorPage = () => {
         navigate('/');
     }
     return (
-        <div className='flex gap-4 h-screen bg-gradient-to-r from-slate-900 to-slate-700 text-white'>
-            <div className='h-full w-60 shadow-2xl shadow-black bg-slate-950 p-4 flex flex-col justify-between'>
+        <div className='flex gap-4 h-screen bg-[#1F2937] text-white'>
+            <div className='h-full w-60 shadow-2xl shadow-black bg-[4B5563] p-4 flex flex-col justify-between'>
                 <div>
                     <div className='flex items-center gap-3 border-b-1 border-gray-600 pb-3'>
                         <img className='h-12 rounded-[5px]' src="/logo.jpeg" alt="" />
