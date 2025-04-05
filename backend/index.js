@@ -2,15 +2,27 @@ import express from "express";
 import http from 'http';
 import {Server} from 'socket.io';
 import ACTIONS from "../frontend/shared/actions.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 const app = express(); 
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: { 
-        origin: "http://localhost:5173", 
+        origin: "https://your-frontend.vercel.app",
         methods: ["GET", "POST"],
         credentials: true
     }
 });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const distPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(distPath));
+
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
 
 const userSocketMap = {};
 function getAllConnectedClients (roomId) {
